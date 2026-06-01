@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   app: {
-    baseURL: '/',
+    baseURL: '/alula',
     head: {
       title: 'ALULA',
       meta: [
@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     }
   },
   css: ['~/assets/css/main.css'],
+  ssr: true,
   nitro: {
     preset: "static",
   }
