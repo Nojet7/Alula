@@ -1,0 +1,22 @@
+[
+    {
+        "label": "Sensory",
+        "id": "sensory",
+        "color": "--color-yellow"
+    },
+    {
+        "label": "Cognitive",
+        "id": "cognitive",
+        "color": "--color-blue"
+    },
+    {
+        "label": "Affective",
+        "id": "affective",
+        "color": "--color-red"
+    },
+    {
+        "label": "Bodily",
+        "id": "bodily",
+        "color": "--color-green"
+    }
+]

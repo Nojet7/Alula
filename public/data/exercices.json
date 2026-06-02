@@ -1,0 +1,18 @@
+[
+    {
+        "date": "2026-05-29",
+        "categoryId": "bodily"
+    },
+    {
+        "date": "2026-06-02",
+        "categoryId": "cognitive"
+    },
+    {
+        "date": "2026-06-04",
+        "categoryId": "affective"
+    },
+    {
+        "date": "2026-06-16",
+        "categoryId": "sensory"
+    }
+]

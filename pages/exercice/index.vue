@@ -5,8 +5,10 @@
 
 <!-- HTML -->
 <template>
-    <h1>Exercice</h1>
-    <p>descriptopin de l'exercices</p>
+    <section class="page-container exercice-page">
+        <h1>Exercice</h1>
+        <p>descriptopin de l'exercices</p>
+    </section>
 </template>
 
 <!-- CSS -->
