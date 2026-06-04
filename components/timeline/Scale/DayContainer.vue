@@ -1,7 +1,8 @@
 <script setup>
 const props = defineProps({
     dayDate: Date,
-    exercice: Object
+    exercice: Object,
+    width: Number
 })
 
 function formatDate(date) {
@@ -14,9 +15,12 @@ function formatDate(date) {
 </script>
 
 <template>
-    <div class="day-container">
+    <div class="day-container" :style="{
+        width: width + 'px'
+    }">
         <div class="circle-container">
-            <div v-if="exercice" class="circle-exercice" :style="{backgroundColor: `var(${props.exercice.color})`}"></div>
+            <div v-if="exercice" class="circle-exercice" :style="{ backgroundColor: `var(${exercice.color})` }">
+            </div>
             <div v-else class="circle-blank"></div>
         </div>
 
@@ -32,17 +36,20 @@ function formatDate(date) {
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 0 25px;
+    flex-shrink: 0;
+    will-change: transform;
 }
 
 .circle-container {
     height: calc(100% - 25px);
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .date-container {
     height: 25px;
+
     display: flex;
     justify-content: center;
 }

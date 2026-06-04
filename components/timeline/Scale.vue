@@ -1,32 +1,43 @@
 <script setup>
 const props = defineProps({
-    totalDays: Array,
-    exercices: Array,
-    progress: Number,
-    maxTranslate: Number
+    timeline: Array,
+    scrollValue: Number,
+    timelineWidth: Number
 
 })
 
-function formatDate(date) {
-    return new Date(date).toISOString().split('T')[0]
-}
+const viewportWidth = ref(0)
+const viewport = ref(null)
 
-function getExerciceForDay(day) {
-    const dayStr = formatDate(day)
+onMounted(() => {
+    if (viewport.value) {
+        viewportWidth.value = viewport.value.offsetWidth
+    }
+})
 
-    return props.exercices.find(ex => ex.date === dayStr) || null
-}
+const maxTranslate = computed(() => {
+    return Math.max(
+        0, props.timelineWidth - viewportWidth.value
+    )
+})
+
+const translateX = computed(() => {
+    return Math.min(
+        maxTranslate.value, props.scrollValue
+    )
+})
 </script>
 
 <template>
-    <div class="scale-viewport">
+    <div ref="viewport" class="scale-viewport">
 
         <div class="scale-track" :style="{
-            transform: `translateX(${-progress * maxTranslate}px)`
+            width: timelineWidth + 'px',
+            transform: `translateX(${-translateX}px)`
         }">
 
-            <TimelineScaleDayContainer v-for="day in totalDays" :key="formatDate(day)" :dayDate="day"
-                :exercice="getExerciceForDay(day)" />
+            <TimelineScaleDayContainer v-for="item in timeline" :key="item.date" :day-date="item.date"
+                :exercice="item.exercice" :width="item.width" />
 
         </div>
 

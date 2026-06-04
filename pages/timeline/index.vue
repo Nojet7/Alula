@@ -10,7 +10,12 @@ const exercices = [
     { date: "2026-06-16", categoryId: "sensory", color: "--color-yellow" }
 ]
 
+/* --------------------- CONFIG ----------------- */
+const pixelsPerNormalDay = 100
+const pixelsPerExerciseDay = 150
+
 /* -------------------- DATES -------------------- */
+
 const dates = computed(() =>
     exercices.map(e => new Date(e.date))
 )
@@ -27,10 +32,6 @@ const maxDate = computed(() => {
     return d
 })
 
-const totalRangeMs = computed(() =>
-    maxDate.value - minDate.value
-)
-
 const allDays = computed(() => {
     const start = new Date(minDate.value)
     const end = new Date(maxDate.value)
@@ -46,17 +47,65 @@ const allDays = computed(() => {
     return days
 })
 
+/* -------------------- TIMELINE ----------------------- */
+
+const timeline = computed(() => {
+    let x = 0
+
+    return allDays.value.map(day => {
+        const dayString = day.toISOString().split('T')[0]
+
+        const exercice = exercices.find(
+            e => e.date === dayString
+        )
+
+        const width = exercice
+            ? pixelsPerExerciseDay
+            : pixelsPerNormalDay
+
+        const item = {
+            date: day,
+            x,
+            exercice,
+            width
+        }
+
+        x += width
+
+        return item
+    })
+})
+
+const timelineWidth = computed(() => {
+    const last = timeline.value.at(-1)
+
+    if (!last) return 0
+
+    return last.x + last.width
+})
+
+/* -------------------- VIEWPORT -------------------- */
+const viewportWidth = ref(0)
+
 
 /* -------------------- SCROLL ENGINE -------------------- */
+
 const scrollValue = ref(0)
 
-const maxScroll = 2000
+const maxScroll = computed(() => {
+    if (!viewportWidth.value) return 0
+    return Math.max(0, timelineWidth.value - viewportWidth.value)
+})
 
 let lastX = null
 let lastY = null
 let lockAxis = null
 let velocity = 0
 let animationId = null
+
+const centerX = computed(() => {
+    return (scrollValue.value + viewportWidth.value / 2)
+})
 
 function onTouchStart(e) {
     const t = e.touches[0]
@@ -87,19 +136,16 @@ function onTouchMove(e) {
 
     let delta = 0
 
-    if(lockAxis === 'y') {
+    if (lockAxis === 'y') {
         delta = -dy
     }
-    if(lockAxis === 'x') {
+    if (lockAxis === 'x') {
         delta = -dx
     }
 
     scrollValue.value += delta
 
-    scrollValue.value = Math.min(
-        maxScroll,
-        Math.max(0, scrollValue.value)
-    )
+    scrollValue.value = Math.min(maxScroll.value, Math.max(0, scrollValue.value))
 
     velocity = delta
 }
@@ -109,6 +155,9 @@ function onTouchEnd() {
     lastY = null
     lockAxis = null
     startInertia()
+    setTimeout(() => {
+        snapToClosest()
+    }, 250)
 }
 
 /* -------------------- INERTIA (iOS FEEL) -------------------- */
@@ -120,14 +169,14 @@ function startInertia() {
         scrollValue.value += velocity
 
         scrollValue.value = Math.min(
-            maxScroll,
+            maxScroll.value,
             Math.max(0, scrollValue.value)
         )
 
-        const atMin = scrollValue.value <=0
-        const atMax = scrollValue.value >= maxScroll
+        const atMin = scrollValue.value <= 0
+        const atMax = scrollValue.value >= maxScroll.value
 
-        if((atMin && velocity < 0) || (atMax && velocity > 0)) {
+        if ((atMin && velocity < 0) || (atMax && velocity > 0)) {
             velocity = 0
             return
         }
@@ -145,28 +194,99 @@ function cancelInertia() {
     velocity = 0
 }
 
+/* --------------------- SNAP DES JOURS AU CENTRE ------------ */
+function getItemCenter(item) {
+    return item.x + item.width / 2
+}
+
+function findClosestToCenter() {
+    const centerScroll = scrollValue.value + viewportWidth.value / 2
+
+    let closest = null
+    let bestDist = Infinity
+
+    for (const item of timeline.value) {
+        if(!item.exercice) continue
+
+        const itemCenter = getItemCenter(item)
+        const dist = Math.abs(itemCenter - centerScroll)
+
+        if (dist < 150 && dist < bestDist) {
+            bestDist = dist
+            closest = item
+        }
+    }
+
+    return closest
+}
+
+function snapToClosest() {
+    const target = findClosestToCenter()
+    if (!target) return
+
+    const targetCenter = target.x + target.width / 2
+    const newScroll = targetCenter - viewportWidth.value / 2
+
+    animateScrollTo(Math.min(maxScroll.value, Math.max(0, newScroll)))
+}
+
+/* animation smooth */
+function animateScrollTo(target) {
+    const start = scrollValue.value
+    const diff = target - start
+    const duration = 250
+    const startTime = performance.now()
+
+    function step(t) {
+        const p = Math.min(1, (t - startTime) / duration)
+        const ease = 1 - Math.pow(1 - p, 3)
+
+        scrollValue.value = start + diff * ease
+
+        if (p < 1) {
+            requestAnimationFrame(step)
+        }
+    }
+
+    requestAnimationFrame(step)
+}
+
 /* -------------------- PROGRESS -------------------- */
 
 const progress = computed(() => {
-    return Math.min(
-        1,
-        Math.max(0, scrollValue.value / maxScroll)
-    )
+    if (!maxScroll.value) return 0
+
+    return scrollValue.value / maxScroll.value
+})
+
+/* -------------------- CURRENT DATE ------------------ */
+const currentTimelineItem = computed(() => {
+    if (!timeline.value.length) return null
+
+    let closest = null
+    let closestDistance = Infinity
+
+    for (const item of timeline.value) {
+        const itemCenter = item.x + item.width / 2
+        const distance = Math.abs(itemCenter - centerX.value)
+
+        if (distance < closestDistance) {
+            closestDistance = distance
+            closest = item
+        }
+    }
+
+    return closest
 })
 
 const currentDate = computed(() => {
-    return new Date(
-        minDate.value.getTime() +
-        progress.value * totalRangeMs.value
-    )
-})
-
-const maxTranslate = computed(() => {
-    return allDays.value.length * 74 // 74px (au piffe pour fonctionner avec la maquette)
+    return currentTimelineItem.value?.date
 })
 
 /* -------------------- LIFECYCLE -------------------- */
 onMounted(() => {
+    viewportWidth.value = window.innerWidth
+
     window.addEventListener('touchstart', onTouchStart, { passive: true })
     window.addEventListener('touchmove', onTouchMove, { passive: true })
     window.addEventListener('touchend', onTouchEnd)
@@ -191,8 +311,7 @@ watchEffect(() => {
         <TimelineBackgroundSky />
         <TimelineDrawingPath />
 
-        <TimelineScale :total-days="allDays" :exercices="exercices" :progress="progress"
-            :max-translate="maxTranslate" />
+        <TimelineScale :timeline="timeline" :scroll-value="scrollValue" :timeline-width="timelineWidth" />
     </section>
 </template>
 
