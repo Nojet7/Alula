@@ -26,7 +26,7 @@
     padding: 0;
 }
 
-body {
+html, body {
     font-family: "Lexend Regular";
     overflow: hidden;
 }

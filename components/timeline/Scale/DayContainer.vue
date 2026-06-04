@@ -9,7 +9,7 @@ const props = defineProps({
 const base = useRuntimeConfig().app.baseURL
 
 function formatDate(date) {
-    return new Intl.DateTimeFormat('fr-FR', {
+    return new Intl.DateTimeFormat('en-EN', {
         day: '2-digit',
         month: 'long',
         year: 'numeric'
