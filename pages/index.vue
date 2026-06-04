@@ -1,5 +1,4 @@
 <script setup>
-const base = useRuntimeConfig().app.baseURL
 </script>
 
 <template>

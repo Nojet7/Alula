@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -10,7 +9,7 @@ export default defineNuxtConfig({
         { name: 'description', content: '' }
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/dessins/circles/color-red.png' },
+        { rel: 'icon', type: 'image/png', href: '/Alula/dessins/circles/color-red.png' },
       ],
     }
   },
