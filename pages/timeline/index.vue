@@ -285,7 +285,7 @@ const currentDate = computed(() => {
 
 /* -------------------- LIFECYCLE -------------------- */
 onMounted(() => {
-    viewportWidth.value = window.innerWidth
+    viewportWidth.value = window.innerWidth - 144
 
     window.addEventListener('touchstart', onTouchStart, { passive: true })
     window.addEventListener('touchmove', onTouchMove, { passive: true })
