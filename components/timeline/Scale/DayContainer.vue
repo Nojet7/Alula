@@ -2,7 +2,8 @@
 const props = defineProps({
     dayDate: Date,
     exercice: Object,
-    width: Number
+    width: Number,
+    frameIndex: Number
 })
 
 const base = useRuntimeConfig().app.baseURL
@@ -14,6 +15,7 @@ function formatDate(date) {
         year: 'numeric'
     }).format(new Date(date))
 }
+
 </script>
 
 <template>
@@ -29,7 +31,7 @@ function formatDate(date) {
 
         <div class="date-container">
             <p v-if="exercice">{{ formatDate(dayDate) }}</p>
-            <p v-else>|</p>
+            <img v-else :src="`${base}/dessins/timelineScale/trait_timeline_${frameIndex}.png`">
         </div>
     </div>
 </template>
@@ -51,23 +53,27 @@ function formatDate(date) {
 }
 
 .date-container {
-    height: 25px;
+    height: 50px;
 
     display: flex;
     justify-content: center;
 }
 
+.date-container img {
+    height: 25px;
+}
+
 .circle-blank {
     border-radius: 50%;
-    height: 50px;
-    width: 50px;
+    height: 30px;
+    width: 30px;
     background-color: var(--color-grey);
 }
 
 .circle-exercice {
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
+    width: 75px;
+    height: 75px;
 }
 
 .circle-exercice img {

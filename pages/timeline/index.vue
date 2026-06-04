@@ -283,6 +283,17 @@ const currentDate = computed(() => {
     return currentTimelineItem.value?.date
 })
 
+/* --------------------- ANIMATION DE JITTER (SECOUSSE DU DESSIN) ------------------------- */
+const frameIndex = ref(1)
+
+onMounted(() => {
+    const fps = 6 // slow = dessin animé / organique
+
+    setInterval(() => {
+        frameIndex.value = frameIndex.value % 3 + 1
+    }, 1000 / fps)
+})
+
 /* -------------------- LIFECYCLE -------------------- */
 onMounted(() => {
     viewportWidth.value = window.innerWidth - 144
@@ -311,7 +322,7 @@ watchEffect(() => {
         <TimelineBackgroundSky />
         <TimelineDrawingPath />
 
-        <TimelineScale :timeline="timeline" :scroll-value="scrollValue" :timeline-width="timelineWidth" />
+        <TimelineScale :timeline="timeline" :scroll-value="scrollValue" :timeline-width="timelineWidth" :frame-index="frameIndex" />
     </section>
 </template>
 
