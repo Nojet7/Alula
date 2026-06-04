@@ -37,3 +37,7 @@ body {
     width: 100dvw;
     overflow: hidden;
 }
+
+a {
+    text-decoration: none;
+}
