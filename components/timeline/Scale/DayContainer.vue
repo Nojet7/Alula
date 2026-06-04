@@ -20,7 +20,7 @@ function formatDate(date) {
     }">
         <div class="circle-container">
             <div v-if="exercice" class="circle-exercice">
-                <img :src="`/Alula/dessins/circles/${exercice.color}.png`">
+                <img :src="`/dessins/circles/${exercice.color.replace('--','')}.png`">
             </div>
             <div v-else class="circle-blank"></div>
         </div>
