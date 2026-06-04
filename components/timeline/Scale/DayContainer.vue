@@ -19,7 +19,8 @@ function formatDate(date) {
         width: width + 'px'
     }">
         <div class="circle-container">
-            <div v-if="exercice" class="circle-exercice" :style="{ backgroundColor: `var(${exercice.color})` }">
+            <div v-if="exercice" class="circle-exercice">
+                <img :src="`dessins/circles/${exercice.color}.png`">
             </div>
             <div v-else class="circle-blank"></div>
         </div>
@@ -65,6 +66,10 @@ function formatDate(date) {
     border-radius: 50%;
     width: 100px;
     height: 100px;
-    background-color: red;
+}
+
+.circle-exercice img {
+    width: 100%;
+    height: 100%;
 }
 </style>
