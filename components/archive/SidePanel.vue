@@ -134,7 +134,7 @@ onBeforeUnmount(() => {
 .sidePanel-border {
     position: absolute;
     height: 100%;
-    transform: translateX(-35px);
+    transform: translateX(-34px);
     touch-action: none;
 }
 
