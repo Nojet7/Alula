@@ -25,6 +25,9 @@ onMounted(() => {
 <!-- HTML -->
 <template>
     <section class="page-container archive-page">
+        <div class="background-container">
+            <img class="background" :src="`${base}/dessins/archivesBackground/arriere_plan_ipad3_${frameIndex}.png`">
+        </div>
         <ArchiveSidePanel :exercices="exercices" :frame-index="frameIndex">
         </ArchiveSidePanel>
     </section>
@@ -35,5 +38,15 @@ onMounted(() => {
 .archive-page {
     position: relative;
     overflow: hidden;
+}
+
+.background-container {
+    width: 100%;
+    height: 100%;
+}
+
+.background {
+    height: 100%;
+    width: 100%;
 }
 </style>
