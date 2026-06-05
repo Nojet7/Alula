@@ -28,7 +28,7 @@ const minDate = computed(() => {
 
 const maxDate = computed(() => {
     const d = new Date(Math.max(...dates.value))
-    d.setDate(d.getDate() + 10)
+    d.setDate(d.getDate() + 6)
     return d
 })
 
