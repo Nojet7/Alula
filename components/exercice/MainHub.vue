@@ -1,6 +1,7 @@
 <script setup>
 const props = defineProps({
-    frameIndex: Number
+    frameIndex: Number,
+    exerciceDone: Boolean
 })
 
 const base = useRuntimeConfig().app.baseURL
@@ -11,8 +12,10 @@ const emits = defineEmits(['openExplanations'])
 <template>
     <div class="hub-container">
         <div class="path-container">
-            <img class="path-background" :src="`${base}/dessins/exerciceHub/path_sans_graine_fond_${frameIndex}.png`">
-            <img class="path-border" :src="`${base}/dessins/exerciceHub/path_sans_graine_${frameIndex}.png`">
+            <img class="path-background"
+                :src="!exerciceDone ? `${base}/dessins/exerciceHub/path_sans_graine_fond_${frameIndex}.png` : `${base}/dessins/exerciceHub/path_graine_fond_${frameIndex}.png`">
+            <img class="path-border"
+                :src="!exerciceDone ? `${base}/dessins/exerciceHub/path_sans_graine_${frameIndex}.png` : `${base}/dessins/exerciceHub/path_graine_${frameIndex}.png`">
         </div>
         <div class="buttons-container">
             <div class="cognitive-button button" @click="$emit('openExplanations', 'cognitive')">
@@ -88,7 +91,8 @@ const emits = defineEmits(['openExplanations'])
     width: 230px;
 }
 
-.button-background, .button-border {
+.button-background,
+.button-border {
     position: absolute;
     height: 100%;
     top: 0;

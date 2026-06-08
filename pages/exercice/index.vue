@@ -85,7 +85,9 @@ function endOfExercice() {
     currentExercicePlaying.value = null
 }
 
+const exerciceDone = ref(false)
 function returnToHub() {
+    exerciceDone.value = true
     currentExerciceEnding.value = null
 }
 
@@ -98,7 +100,7 @@ function repeatExercice(exercice) {
 <!-- HTML -->
 <template>
     <section class="page-container exercice-page">
-        <ExerciceMainHub v-if="!currentExercicePlaying && !currentExerciceEnding" :frame-index="frameIndex"
+        <ExerciceMainHub v-if="!currentExercicePlaying && !currentExerciceEnding" :frame-index="frameIndex" :exercice-done="exerciceDone"
             @open-explanations="openExerciceExplanations"></ExerciceMainHub>
         <ExerciceExplanationsWindow v-if="currentExplanations" :frame-index="frameIndex" :exercice="currentExplanations"
             @close-explanations="closeExplanations" @start-exercice="startExercice"></ExerciceExplanationsWindow>
