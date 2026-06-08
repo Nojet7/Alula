@@ -26,12 +26,13 @@ const emits = defineEmits(['endExercice'])
 .exercice-video-container {
     height: 100%;
     width: 100%;
-    background-color: lightgray;
+    background-color: #eaeaea;
+    display: flex;
+    justify-content: end;
 }
 
 .exercice-video {
     height: 100%;
-    width: 100%;
 }
 
 .exit-button-container {
