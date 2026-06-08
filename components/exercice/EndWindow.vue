@@ -38,9 +38,9 @@ const emits = defineEmits(['returnToHub', 'repeatExercice'])
             </div>
             <div class="button repeat" @click="$emit('repeatExercice', exercice.id)">
                 <img class="button-background repeat"
-                    :src="`${base}/dessins/exerciceExplications/buttons/start_button_background_${frameIndex}.png`">
+                    :src="`${base}/dessins/exerciceExplications/buttons/repeat_button_background_${frameIndex}.png`">
                 <img class="button-border repeat"
-                    :src="`${base}/dessins/exerciceExplications/buttons/start_button_border_${frameIndex}.png`">
+                    :src="`${base}/dessins/exerciceExplications/buttons/repeat_button_border_${frameIndex}.png`">
                 <span class="button-text">Repeat exercise</span>
             </div>
         </div>

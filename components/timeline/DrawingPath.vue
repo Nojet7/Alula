@@ -49,36 +49,11 @@ const currentFrame = computed(() => {
 
     return 88
 })
-
-/* --------------------- ACTIVE CHECKPOINT ----------------- */
-
-const activeCheckpoint = computed(() =>
-    getActiveCheckpoint(props.progress)
-)
-function getActiveCheckpoint(progress) {
-    const EPSILON = 0.01 // ajustable (1% de tolérance)
-
-    const checkpoints = [
-        { id: 1, p: 0.19024780175859313, frame: 32 },
-        { id: 2, p: 0.3701039168665068, frame: 50 },
-        { id: 3, p: 0.47002398081534774, frame: 70 },
-        { id: 4, p: 0.9696243005595524, frame: 87 }
-    ]
-
-    for (const cp of checkpoints) {
-        if (Math.abs(progress - cp.p) <= EPSILON) {
-            return cp
-        }
-    }
-
-    return false
-}
 </script>
 
 <template>
     <div class="timeline-path-container">
-        <img class="path-frame"
-            :src="!activeCheckpoint ? `${base}/dessins/timelinePath/chemin_${currentFrame}.png` : `${base}/dessins/timelinePath/chemin_${currentFrame}.png`" />
+        <img class="path-frame" :src="`${base}/dessins/timelinePath/chemin_${currentFrame}.png`" />
     </div>
 </template>
 
@@ -86,12 +61,14 @@ function getActiveCheckpoint(progress) {
 .timeline-path-container {
     height: 100%;
     width: 100%;
-    background-color: pink;
+
+    z-index: 2;
 }
 
 .path-frame {
     width: 100%;
     object-fit: cover;
     pointer-events: none;
+    transform: translateY(50px);
 }
 </style>

@@ -344,18 +344,14 @@ onBeforeUnmount(() => {
     window.removeEventListener('touchmove', onTouchMove)
     window.removeEventListener('touchend', onTouchEnd)
 })
-
-/* -------------------- DEBUG -------------------- */
-watchEffect(() => {
-})
 </script>
 
 <!-- HTML -->
 <template>
     <section class="page-container timeline-page">
         <div class="path-sky-container">
-            <TimelineBackgroundSky />
             <TimelineDrawingPath :frame-index="frameIndex" :progress="progress" :timeline="timeline" />
+            <TimelineBackgroundSky :current-date-time="currentDateTime" />
         </div>
         <TimelineScale :timeline="timeline" :scroll-value="scrollValue" :timeline-width="timelineWidth"
             :frame-index="frameIndex" />

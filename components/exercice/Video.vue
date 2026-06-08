@@ -14,9 +14,9 @@ const emits = defineEmits(['endExercice'])
             @ended="$emit('endExercice')"></video>
         <div class="exit-button-container" @click="$emit('endExercice')">
             <img class="button-background"
-                :src="`${base}/dessins/exerciceExplications/buttons/start_button_background_${frameIndex}.png`">
+                :src="`${base}/dessins/exerciceExplications/buttons/stop_button_background_${frameIndex}.png`">
             <img class="button-border"
-                :src="`${base}/dessins/exerciceExplications/buttons/start_button_border_${frameIndex}.png`">
+                :src="`${base}/dessins/exerciceExplications/buttons/stop_button_border_${frameIndex}.png`">
             <span class="button-text">Stop the exercice</span>
         </div>
     </div>

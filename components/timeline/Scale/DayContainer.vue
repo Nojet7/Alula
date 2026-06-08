@@ -53,27 +53,27 @@ function formatDate(date) {
 }
 
 .date-container {
-    height: 50px;
+    height: 35px;
 
     display: flex;
     justify-content: center;
 }
 
 .date-container img {
-    height: 25px;
+    height: 15px;
 }
 
 .circle-blank {
     border-radius: 50%;
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
     background-color: var(--color-grey);
 }
 
 .circle-exercice {
     border-radius: 50%;
-    width: 75px;
-    height: 75px;
+    width: 50px;
+    height: 50px;
 }
 
 .circle-exercice img {
