@@ -87,12 +87,14 @@ const checkpointFrame = computed(() => {
     width: 100%;
 
     z-index: 2;
+
+    display: flex;
+    justify-content: center;
 }
 
 .path-frame {
-    width: 100%;
-    object-fit: cover;
+    width: calc(100% - 50px);
     pointer-events: none;
-    transform: translateY(50px);
+    transform: translateY(100px);
 }
 </style>
