@@ -41,9 +41,10 @@ function preloadVideo(exerciceId) {
     const link = document.createElement('link')
 
     link.rel = 'preload'
-    link.as = 'fetch'
+    link.as = 'video'
     link.href = url
     link.crossOrigin = 'anonymous'
+    link.type = 'video/mp4'
 
     document.head.appendChild(link)
     preloadedVideos.add(url)

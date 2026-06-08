@@ -10,7 +10,8 @@ const emits = defineEmits(['endExercice'])
 
 <template>
     <div class="exercice-video-container">
-        <video class="exercice-video" :src="`${base}/videos/cognitive_exercice_video.mp4`" autoplay @ended="$emit('endExercice')"></video>
+        <video class="exercice-video" :src="`${base}/videos/cognitive_exercice_video.mp4`" preload="auto" autoplay
+            @ended="$emit('endExercice')"></video>
         <div class="exit-button-container" @click="$emit('endExercice')">
             <img class="button-background"
                 :src="`${base}/dessins/exerciceExplications/buttons/start_button_background_${frameIndex}.png`">
