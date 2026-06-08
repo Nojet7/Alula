@@ -94,6 +94,8 @@ const checkpointFrame = computed(() => {
 
 .path-frame {
     width: calc(100% - 50px);
+    object-fit: cover;
+    object-position: center top;
     pointer-events: none;
     transform: translateY(100px);
 }
