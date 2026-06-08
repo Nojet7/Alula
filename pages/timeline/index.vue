@@ -206,12 +206,12 @@ function findClosestToCenter() {
     let bestDist = Infinity
 
     for (const item of timeline.value) {
-        if(!item.exercice) continue
+        if (!item.exercice) continue
 
         const itemCenter = getItemCenter(item)
         const dist = Math.abs(itemCenter - centerScroll)
 
-        if (dist < 150 && dist < bestDist) {
+        if (dist < 650 && dist < bestDist) {
             bestDist = dist
             closest = item
         }
@@ -301,6 +301,7 @@ onMounted(() => {
     window.addEventListener('touchstart', onTouchStart, { passive: true })
     window.addEventListener('touchmove', onTouchMove, { passive: true })
     window.addEventListener('touchend', onTouchEnd)
+    snapToClosest()
 })
 
 onBeforeUnmount(() => {
@@ -322,7 +323,8 @@ watchEffect(() => {
         <TimelineBackgroundSky />
         <TimelineDrawingPath />
 
-        <TimelineScale :timeline="timeline" :scroll-value="scrollValue" :timeline-width="timelineWidth" :frame-index="frameIndex" />
+        <TimelineScale :timeline="timeline" :scroll-value="scrollValue" :timeline-width="timelineWidth"
+            :frame-index="frameIndex" />
     </section>
 </template>
 

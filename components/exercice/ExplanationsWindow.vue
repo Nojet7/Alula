@@ -5,6 +5,8 @@ const props = defineProps({
 })
 
 const base = useRuntimeConfig().app.baseURL
+
+const emits = defineEmits(['closeExplanations', 'startExercice'])
 </script>
 
 <template>
@@ -40,7 +42,7 @@ const base = useRuntimeConfig().app.baseURL
                     :src="`${base}/dessins/exerciceExplications/buttons/back_button_border_${frameIndex}.png`">
                 <span class="button-text">Return to the garden</span>
             </div>
-            <div class="button start">
+            <div v-if="exercice.id === 'cognitive'" class="button start" @click="$emit('startExercice', exercice.id)">
                 <img class="button-background start"
                     :src="`${base}/dessins/exerciceExplications/buttons/start_button_background_${frameIndex}.png`">
                 <img class="button-border start"
@@ -62,6 +64,7 @@ const base = useRuntimeConfig().app.baseURL
     display: flex;
     flex-direction: column;
     gap: 25px;
+    justify-content: space-between;
 }
 
 /* ------------------- TEXT BLOCKS ----------------------- */
@@ -80,7 +83,7 @@ const base = useRuntimeConfig().app.baseURL
 
 .description-container {
     position: relative;
-    width: calc(100% - 144px);
+    width: calc(100% - 114px);
     padding: 20px 60px;
     min-height: 250px;
 }
@@ -95,6 +98,8 @@ const base = useRuntimeConfig().app.baseURL
 
 .text-box-background {
     inset: 2px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
 }
 
 .text-content {
