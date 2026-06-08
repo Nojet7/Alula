@@ -1,6 +1,8 @@
 <!-- JS -->
 <script setup>
 
+const base = useRuntimeConfig().app.baseURL
+
 const exercices = [
     {
         "id": "cognitive", "color": "--color-blue", "title": "Cognitive exercise", "subtitle": "Block out distractions and sustain concentration", "description": "A warm light will move through you to help you relax and connect with your body.\n\nA voice will guide you through this exercise.\n\nWhen you finish this exercise, you will reveive a seed.\nPlant it in your garden, and see it sprout within a day."
@@ -28,11 +30,25 @@ onMounted(() => {
 })
 
 /* -------------------- MANAGE POP UP FOR EXPLANATIONS -------------------------- */
+function preloadVideo(exerciceId) {
+    const link = document.createElement('link')
+
+    link.rel = 'preload'
+    link.as = 'fetch'
+    link.href = `${base}/videos/${exerciceId}_exercice_video.mp4`
+    link.crossOrigin = 'anonymous'
+
+    document.head.appendChild(link)
+}
+
 const currentExplanations = ref(null)
 function openExerciceExplanations(exercice) {
     exercices.forEach(e => {
         if (e.id === exercice) {
             currentExplanations.value = e
+            if (exercice === 'cognitive') {
+                preloadVideo(e.id)
+            }
             return
         }
     })
@@ -73,11 +89,14 @@ function repeatExercice(exercice) {
 <!-- HTML -->
 <template>
     <section class="page-container exercice-page">
-        <ExerciceMainHub v-if="!currentExercicePlaying && !currentExerciceEnding" :frame-index="frameIndex" @open-explanations="openExerciceExplanations"></ExerciceMainHub>
+        <ExerciceMainHub v-if="!currentExercicePlaying && !currentExerciceEnding" :frame-index="frameIndex"
+            @open-explanations="openExerciceExplanations"></ExerciceMainHub>
         <ExerciceExplanationsWindow v-if="currentExplanations" :frame-index="frameIndex" :exercice="currentExplanations"
             @close-explanations="closeExplanations" @start-exercice="startExercice"></ExerciceExplanationsWindow>
-        <ExerciceVideo v-if="currentExercicePlaying" :frame-index="frameIndex" @end-exercice="endOfExercice"></ExerciceVideo>
-        <ExerciceEndWindow v-if="currentExerciceEnding" :frame-index="frameIndex" :exercice="currentExerciceEnding" @return-to-hub="returnToHub" @repeat-exercice="repeatExercice"></ExerciceEndWindow>
+        <ExerciceVideo v-if="currentExercicePlaying" :frame-index="frameIndex" @end-exercice="endOfExercice">
+        </ExerciceVideo>
+        <ExerciceEndWindow v-if="currentExerciceEnding" :frame-index="frameIndex" :exercice="currentExerciceEnding"
+            @return-to-hub="returnToHub" @repeat-exercice="repeatExercice"></ExerciceEndWindow>
     </section>
 </template>
 
