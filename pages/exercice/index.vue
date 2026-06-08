@@ -54,9 +54,6 @@ function openExerciceExplanations(exercice) {
     exercices.forEach(e => {
         if (e.id === exercice) {
             currentExplanations.value = e
-            if (exercice === 'cognitive') {
-                preloadVideo(e.id)
-            }
             return
         }
     })
@@ -69,6 +66,9 @@ function closeExplanations() {
 /* --------------------- EXERCICE LAUNCH ---------------------------------- */
 const currentExercicePlaying = ref(null)
 function startExercice(exercice) {
+    if (exercice === 'cognitive') {
+        preloadVideo(exercice)
+    }
     currentExercicePlaying.value = exercice
     closeExplanations()
 }
