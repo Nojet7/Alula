@@ -56,13 +56,10 @@ const maskUrl = computed(() =>
 
 <style scoped>
 .scale-viewport {
-    width: calc(100% - 144px);
+    position: relative;
+    width: 100%;
     height: 200px;
     overflow: hidden;
-    position: absolute;
-    bottom: 72px;
-    left: 50%;
-    transform: translateX(-50%);
     background-color: white;
     border-radius: 50px;
 

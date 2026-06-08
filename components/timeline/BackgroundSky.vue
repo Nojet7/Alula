@@ -3,9 +3,16 @@
 </script>
 
 <template>
-    <div>
+    <div class="sky-container">
         Background Sky
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+    .sky-container {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+</style>

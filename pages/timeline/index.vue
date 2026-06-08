@@ -230,7 +230,6 @@ function snapToClosest() {
     animateScrollTo(Math.min(maxScroll.value, Math.max(0, newScroll)))
 }
 
-/* animation smooth */
 function animateScrollTo(target) {
     const start = scrollValue.value
     const diff = target - start
@@ -283,6 +282,42 @@ const currentDate = computed(() => {
     return currentTimelineItem.value?.date
 })
 
+/* ----------------- PRECISION HEURES ET MINUTES -------------------------------------- */
+const currentHour = computed(() => {
+    const item = currentTimelineItem.value
+    if (!item) return 0
+
+    const center = centerX.value
+    const relative = center - item.x
+
+    const ratio = relative / item.width
+    return Math.floor(ratio * 24)
+})
+
+const currentMinute = computed(() => {
+    const item = currentTimelineItem.value
+    if (!item) return 0
+
+    const center = centerX.value
+    const relative = center - item.x
+
+    const ratio = relative / item.width
+    const totalMinutes = ratio * 1440
+
+    return Math.floor(totalMinutes % 60)
+})
+
+const currentDateTime = computed(() => {
+    const date = new Date(currentDate.value)
+
+    if (!date) return null
+
+    date.setHours(currentHour.value)
+    date.setMinutes(currentMinute.value)
+
+    return date
+})
+
 /* --------------------- ANIMATION DE JITTER (SECOUSSE DU DESSIN) ------------------------- */
 const frameIndex = ref(1)
 
@@ -312,21 +347,39 @@ onBeforeUnmount(() => {
 
 /* -------------------- DEBUG -------------------- */
 watchEffect(() => {
-    console.log('progress:', progress.value)
-    console.log('date:', currentDate.value)
 })
 </script>
 
 <!-- HTML -->
 <template>
     <section class="page-container timeline-page">
-        <TimelineBackgroundSky />
-        <TimelineDrawingPath />
-
+        <div class="path-sky-container">
+            <TimelineBackgroundSky />
+            <TimelineDrawingPath :frame-index="frameIndex" :progress="progress" :timeline="timeline" />
+        </div>
         <TimelineScale :timeline="timeline" :scroll-value="scrollValue" :timeline-width="timelineWidth"
             :frame-index="frameIndex" />
     </section>
 </template>
 
 <!-- CSS -->
-<style scoped></style>
+<style scoped>
+.page-container.timeline-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 25px;
+    padding: 72px;
+    width: calc(100dvw - 144px);
+    height: calc(100dvh - 144px);
+}
+
+.path-sky-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+}
+</style>
