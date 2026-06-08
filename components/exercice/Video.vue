@@ -26,7 +26,7 @@ const emits = defineEmits(['endExercice'])
 .exercice-video-container {
     height: 100%;
     width: 100%;
-    background-color: #eaeaea;
+    background-color: #e5e5e5;
     display: flex;
     justify-content: end;
 }
