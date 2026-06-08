@@ -118,7 +118,6 @@ const emits = defineEmits(['returnToHub', 'repeatExercice'])
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin-top: 25px;
 }
 
 .button {

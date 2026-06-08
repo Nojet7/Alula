@@ -128,7 +128,6 @@ const emits = defineEmits(['closeExplanations', 'startExercice'])
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin-top: 25px;
 }
 
 .button {

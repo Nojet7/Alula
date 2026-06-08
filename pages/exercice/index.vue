@@ -30,15 +30,23 @@ onMounted(() => {
 })
 
 /* -------------------- MANAGE POP UP FOR EXPLANATIONS -------------------------- */
+const preloadedVideos = new Set()
 function preloadVideo(exerciceId) {
+    const url = `${base}/videos/${exerciceId}_exercice_video.mp4`
+
+    if (preloadedVideos.has(url)) {
+        return
+    }
+
     const link = document.createElement('link')
 
     link.rel = 'preload'
     link.as = 'fetch'
-    link.href = `${base}/videos/${exerciceId}_exercice_video.mp4`
+    link.href = url
     link.crossOrigin = 'anonymous'
 
     document.head.appendChild(link)
+    preloadedVideos.add(url)
 }
 
 const currentExplanations = ref(null)
