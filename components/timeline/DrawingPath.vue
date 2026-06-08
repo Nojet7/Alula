@@ -38,22 +38,46 @@ const currentFrame = computed(() => {
         if (p >= a.p && p <= b.p) {
             const t = (p - a.p) / (b.p - a.p)
             const frame = Math.round(lerp(a.frame, b.frame, t))
-            if (frame > 1 && frame < 88) {
-                return (frame - 2) + props.frameIndex
-            } else {
-                return frame
-            }
+            return frame
 
         }
     }
 
     return 88
 })
+
+/* --------------------- ACTIVE CHECKPOINT ----------------- */
+
+const activeCheckpoint = computed(() =>
+    getActiveCheckpoint(props.progress)
+)
+function getActiveCheckpoint(progress) {
+    const EPSILON = 0.01 // ajustable (1% de tolérance)
+
+    const checkpoints = [
+        { id: 1, p: 0.19024780175859313, frame: 32 },
+        { id: 2, p: 0.3701039168665068, frame: 50 },
+        { id: 3, p: 0.47002398081534774, frame: 70 },
+        { id: 4, p: 0.9696243005595524, frame: 87 }
+    ]
+
+    for (const cp of checkpoints) {
+        if (Math.abs(progress - cp.p) <= EPSILON) {
+            return cp
+        }
+    }
+
+    return false
+}
+
+const checkpointFrame = computed(() => {
+    return (activeCheckpoint.value.frame - 2) + props.frameIndex
+})
 </script>
 
 <template>
     <div class="timeline-path-container">
-        <img class="path-frame" :src="`${base}/dessins/timelinePath/chemin_${currentFrame}.png`" />
+        <img class="path-frame" :src="activeCheckpoint ? `${base}/dessins/timelinePath/chemin_${checkpointFrame}.png` : `${base}/dessins/timelinePath/chemin_${currentFrame}.png`" />
     </div>
 </template>
 
