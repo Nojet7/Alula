@@ -244,6 +244,9 @@ function animateScrollTo(target) {
 
         if (p < 1) {
             requestAnimationFrame(step)
+        } else {
+            cancelInertia()
+            scrollValue.value = target
         }
     }
 
