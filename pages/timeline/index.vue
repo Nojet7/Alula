@@ -336,7 +336,11 @@ onMounted(() => {
     window.addEventListener('touchstart', onTouchStart, { passive: true })
     window.addEventListener('touchmove', onTouchMove, { passive: true })
     window.addEventListener('touchend', onTouchEnd)
-    snapToClosest()
+
+    nextTick(() => {
+        scrollValue.value = maxScroll.value
+        snapToClosest()
+    })
 })
 
 onBeforeUnmount(() => {
