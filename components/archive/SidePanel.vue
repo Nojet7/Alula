@@ -6,10 +6,6 @@ const props = defineProps({
 
 const base = useRuntimeConfig().app.baseURL
 
-const sidePanelMaskUrl = computed(() =>
-    `${base}/dessins/archivesSidePanel/side_pannel_fond_${props.frameIndex}.png`
-)
-
 /* ---------------- PANEL POSITION ---------------- */
 
 const panelProgress = ref(0)
@@ -84,10 +80,7 @@ onBeforeUnmount(() => {
     <div class="sidePanel-container" :style="{
         transform: `translateX(${translateX}px)`
     }">
-        <div class="sidePanel-content-container" :style="{
-            WebkitMaskImage: `url(${sidePanelMaskUrl})`,
-            maskImage: `url(${sidePanelMaskUrl})`
-        }">
+        <div class="sidePanel-content-container">
             <h1 class="content-title">My achievements</h1>
             <div class="tab-container">
                 <div class="tab-header">
@@ -134,7 +127,7 @@ onBeforeUnmount(() => {
 .sidePanel-border {
     position: absolute;
     height: 100%;
-    transform: translateX(-34px);
+    transform: translateX(-37px);
     touch-action: none;
 }
 
@@ -146,13 +139,6 @@ onBeforeUnmount(() => {
     flex-direction: column;
     gap: 50px;
     background-color: white;
-
-
-    -webkit-mask-size: 100% 100%;
-    -webkit-mask-repeat: no-repeat;
-
-    mask-size: 100% 100%;
-    mask-repeat: no-repeat;
 }
 
 .content-title {
