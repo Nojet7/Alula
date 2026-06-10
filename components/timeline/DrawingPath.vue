@@ -97,6 +97,6 @@ const checkpointFrame = computed(() => {
     object-fit: cover;
     object-position: center top;
     pointer-events: none;
-    transform: translateY(100px);
+    transform: translateY(80px);
 }
 </style>
